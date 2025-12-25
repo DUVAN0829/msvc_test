@@ -64,6 +64,13 @@ public class StudentController {
 
     }
 
+    @GetMapping("/all-by-ids")
+    public ResponseEntity<List<Student>> findAllByIds(@RequestParam List<Long> ids) {
+
+        return ResponseEntity.ok((List<Student>) repository.findAllById(ids));
+
+    }
+
 }
 
 

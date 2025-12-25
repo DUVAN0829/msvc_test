@@ -12,6 +12,7 @@ public class CourseDTO {
     //* Vars
     private Long id;
     private String courseName;
+    private List<Long> stundetIds;
     private List<StudentDTO> Students;
 
 }
