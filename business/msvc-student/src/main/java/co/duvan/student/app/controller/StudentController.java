@@ -2,6 +2,7 @@ package co.duvan.student.app.controller;
 
 import co.duvan.student.app.model.Student;
 import co.duvan.student.app.repository.StudentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/student")
+@Slf4j
 public class StudentController {
 
     //* Vars
@@ -28,14 +30,17 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> findById(@PathVariable Long id) {
+    public ResponseEntity<Student> findById(@PathVariable Long id,
+                                            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
 
         Optional<Student> studentOptional = repository.findById(id);
 
-        if(studentOptional.isPresent()) {
+        if (studentOptional.isPresent()) {
+            log.info("[" + correlationId + "]" + "Fetching student id=" + id);
             return ResponseEntity.ok(studentOptional.orElseThrow());
         }
 
+        log.info("[" + correlationId + "] Student not found");
         return ResponseEntity.notFound().build();
 
     }
@@ -52,7 +57,7 @@ public class StudentController {
 
         Optional<Student> studentOptional = repository.findById(id);
 
-        if(studentOptional.isPresent()) {
+        if (studentOptional.isPresent()) {
 
             repository.deleteById(id);
 
