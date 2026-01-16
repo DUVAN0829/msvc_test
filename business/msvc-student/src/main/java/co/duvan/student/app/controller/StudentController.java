@@ -30,17 +30,16 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> findById(@PathVariable Long id,
-                                            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+    public ResponseEntity<Student> findById(@PathVariable Long id) {
 
         Optional<Student> studentOptional = repository.findById(id);
 
         if (studentOptional.isPresent()) {
-            log.info("[" + correlationId + "]" + "Fetching student id=" + id);
+            //log.info("[" + correlationId + "]" + "Fetching student id=" + id);
             return ResponseEntity.ok(studentOptional.orElseThrow());
         }
 
-        log.info("[" + correlationId + "] Student not found");
+        //log.info("[" + correlationId + "] Student not found");
         return ResponseEntity.notFound().build();
 
     }
