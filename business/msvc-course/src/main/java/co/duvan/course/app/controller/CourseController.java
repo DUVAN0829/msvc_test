@@ -2,6 +2,7 @@ package co.duvan.course.app.controller;
 
 import co.duvan.course.app.model.Course;
 import co.duvan.course.app.repository.CourseRepository;
+import co.duvan.course.app.services.CourseService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class CourseController {
 
     //* Vars
+    private final CourseService service;
     private final CourseRepository repository;
 
-    public CourseController(CourseRepository repository) {
+    public CourseController(CourseService service, CourseRepository repository) {
+        this.service = service;
         this.repository = repository;
     }
 
@@ -26,14 +29,14 @@ public class CourseController {
     @GetMapping("/details")
     public ResponseEntity<List<Course>> findAll() {
 
-        return ResponseEntity.ok((List<Course>) repository.findAll());
+        return ResponseEntity.ok(service.findAll());
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable Long id) {
 
-        Optional<Course> courseOptional = repository.findById(id);
+        Optional<Course> courseOptional = service.findById(id);
 
         if (courseOptional.isPresent()) {
             return ResponseEntity.ok(courseOptional.orElseThrow());
@@ -45,17 +48,17 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<Course> save(@RequestBody Course course) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(course));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(course));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 
-        Optional<Course> courseOptional = repository.findById(id);
+        Optional<Course> courseOptional = service.findById(id);
 
         if(courseOptional.isPresent()) {
 
-            repository.deleteById(id);
+            service.deleteById(id);
 
             return ResponseEntity.noContent().build();
         }
