@@ -26,7 +26,7 @@ public class MessageFunction {
     @Bean
     public Function<CourseMsgDto, List<Long>> sms() {
         return courseMsgDto -> {
-            log.info("Sendind sms with the details: " + courseMsgDto.toString());
+            log.info("Sendind sms with the details: " + courseMsgDto.courseIds());
             return courseMsgDto.courseIds();
         };
     }

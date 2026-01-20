@@ -3,19 +3,20 @@ spring:
     name: message-msvc
 
   cloud:
-
     function:
       definition: email|sms
 
     stream:
       bindings:
-        sendCommunication-in-0:
+        email|sms-in-0:
           destination: send-communication
           group: ${spring.application.name}
+
+        email|sms-out-0:
+          destination: communication-sent
 
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
-    connection-timeout: 10s
