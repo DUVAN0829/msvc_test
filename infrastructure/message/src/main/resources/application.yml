@@ -15,8 +15,9 @@ spring:
         email|sms-out-0:
           destination: communication-sent
 
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+
+
