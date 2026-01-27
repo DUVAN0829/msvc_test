@@ -1,0 +1,36 @@
+networks:
+  microservices-net:
+
+services:
+
+  msvc-course:
+    image: duvangonzalez09/msvc-course
+    environment:
+      PORT: 8081
+      USERNAME: duvan
+      PASSWORD: 290819
+    ports:
+      - "8081:8081"
+    networks:
+      - microservices-net
+
+  msvc-student:
+    image: duvangonzalez09/msvc-student
+    environment:
+      PORT: 8080
+      USERNAME: duvan
+      PASSWORD: 290819
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-net
+
+  msvc-gateway:
+    image: duvangonzalez09/server-gateway
+    ports:
+      - "8090:8090"
+    depends_on:
+      - msvc-course
+      - msvc-student
+    networks:
+      - microservices-net
