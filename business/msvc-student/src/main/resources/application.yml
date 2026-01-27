@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: msvc-student
+
+# Exponer métricas y agrupar por nombre de msvc
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+

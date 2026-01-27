@@ -5,23 +5,18 @@
 
 	<!-- Parent -->
 	<parent>
-		<groupId>co.duvan.business</groupId>
-		<artifactId>business</artifactId>
+		<groupId>co.duvan.infrastructure</groupId>
+		<artifactId>infrastructure</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<!-- Basic config -->
-	<groupId>co.duvan.course.app</groupId>
-	<artifactId>msvc-course</artifactId>
-	<name>msvc-course</name>
+	<!-- Basic Configuration -->
+	<groupId>co.duvan.message.app</groupId>
+	<artifactId>message-msvc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>message</name>
+	<description>message</description>
 
-	<description>msvc-course</description>
-
-	<properties>
-		<spring-cloud.version>2025.1.0</spring-cloud.version>
-	</properties>
-
-	<!-- Dependencies -->
 	<dependencies>
 
 		<dependency>
@@ -48,17 +43,13 @@
 
 	</dependencies>
 
-	<!-- Dependency Management -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
