@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(url = "http://localhost:8081", name = "msvc-student")
+@FeignClient(name = "msvc-student", url = "${msvc.student.url}")
 public interface StudentClient {
 
     @GetMapping("/api/v1/student/all-by-ids")

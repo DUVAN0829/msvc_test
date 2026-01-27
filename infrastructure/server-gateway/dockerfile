@@ -1,0 +1,28 @@
+ARG MSVC_GATEWAY=server-gateway
+ARG MSVC_PARENT=infrastructure
+
+FROM alpine/java:22-jdk AS builder
+
+ARG MSVC_PARENT
+ARG MSVC_GATEWAY
+
+WORKDIR /app
+
+COPY pom.xml .
+COPY $MSVC_PARENT/pom.xml $MSVC_PARENT/
+COPY $MSVC_PARENT/$MSVC_GATEWAY $MSVC_PARENT/$MSVC_GATEWAY/
+
+WORKDIR /app/$MSVC_PARENT/$MSVC_GATEWAY
+
+RUN ./mvnw clean package -DskipTests
+
+FROM alpine/java:22-jdk
+
+ARG MSVC_PARENT
+ARG MSVC_GATEWAY
+
+WORKDIR /app
+
+COPY --from=builder /app/$MSVC_PARENT/$MSVC_GATEWAY/target/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]

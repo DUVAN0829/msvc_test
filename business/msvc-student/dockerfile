@@ -1,0 +1,28 @@
+ARG MSVC_NAME=msvc-student
+ARG MSVC_PARENT=business
+
+FROM alpine/java:22-jdk AS builder
+
+ARG MSVC_NAME
+ARG MSVC_PARENT
+
+WORKDIR /app
+
+COPY pom.xml .
+COPY $MSVC_PARENT/pom.xml $MSVC_PARENT/
+COPY $MSVC_PARENT/$MSVC_NAME $MSVC_PARENT/$MSVC_NAME/
+
+WORKDIR /app/$MSVC_PARENT/$MSVC_NAME
+
+RUN ./mvnw clean package -DskipTests
+
+FROM alpine/java:22-jdk
+
+ARG MSVC_PARENT
+ARG MSVC_NAME
+
+WORKDIR /app
+
+COPY --from=builder /app/$MSVC_PARENT/$MSVC_NAME/target/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]
